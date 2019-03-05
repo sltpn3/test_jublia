@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Input Scheduled Email{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="event_id">Event ID</label>
+    <input name="event_id" id="event_id" required>
+    <label for="email_subject">Email Subject</label>
+    <input name="email_subject" id="email_subject" required>
+    <label for="email_content">Email Content</label>
+    <textarea rows="4" cols="50" name="email_content" id="email_content"></textarea>
+    <label for="timestamp">Send Time</label>
+    <input type="datetime-local" name="timestamp" id="timestamp" required>
+    <input type="submit" value="Save">
+  </form>
+{% endblock %}
