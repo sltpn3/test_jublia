@@ -8,6 +8,7 @@ from email.MIMEText import MIMEText
 
 import beanstalkc
 import smtplib
+import argparse
 
 
 class SendEmail():
@@ -72,6 +73,18 @@ class SendEmail():
         self.smtp.sendmail(self._from, to_address, message.as_string())
 
 
-send = SendEmail()
-send.job_pusher()
-# send.job_worker()
+if __name__ == '__main__':
+    modes = ['pusher', 'worker']
+    argparser = argparse.ArgumentParser(description='Send Email Engine',
+                                        formatter_class=argparse.RawDescriptionHelpFormatter)
+    argparser.add_argument('-m', '--mode', help='Mode: {}'.format(', '.join(modes)), metavar='',
+                           default=None, type=str)
+    argparser.add_argument('-c', '--config', help='Config File', metavar='', default='config.conf', type=str)
+
+    args = argparser.parse_args()
+    send_mail = SendEmail(args.config)
+
+    if args.mode == "pusher":
+        send_mail.job_pusher()
+    elif args.mode == "worker":
+        send_mail.job_worker()
