@@ -17,9 +17,11 @@ def save_emails():
         try:
             jublia.post_save_emails(event_id, email_subject, email_content, timestamp)
             flash('Data Saved')
-        except Exception:
+        except Exception, e:
             '''Usually we send it to error tracking tool such as sentry'''
+            print e
             flash('Error Saving Data')
+            return render_template('save_emails.html', form=form)
         return render_template('save_emails.html', form=EmailForm())
     else:
         return render_template('save_emails.html', form=form)
