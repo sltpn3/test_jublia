@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Input Scheduled Email{% endblock %}</h1>
+{% endblock %}
+
+{% from "_formhelpers.html" import render_field %}
+{% block content %}
+  <form method="post">
+    {{ render_field(form.event_id) }}
+    {{ render_field(form.email_id) }}
+    <input type="submit" value="Save">
+  </form>
+{% endblock %}

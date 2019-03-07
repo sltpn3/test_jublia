@@ -1,5 +1,5 @@
 from ConfigParser import ConfigParser
-from model import email_to_send, base, email, event
+from model import email_to_send, base, email, event, email_event
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -35,5 +35,13 @@ class JubliaController():
         self.session.add(new_event)
         self.session.commit()
 
+    def post_email_events(self, email_id, event_id):
+        new_email_event = email_event.EmailEvent(event_id=event_id, email_id=email_id)
+        self.session.add(new_email_event)
+        self.session.commit()
+
     def event_id_choices(self):
         return [(e.id, e.event_name) for e in self.session.query(event.Event).order_by('event_name')]
+
+    def email_id_choices(self):
+        return [(e.id, e.email) for e in self.session.query(email.Email).order_by('email')]
