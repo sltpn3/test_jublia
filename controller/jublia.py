@@ -30,5 +30,10 @@ class JubliaController():
         self.session.add(e_mail)
         self.session.commit()
 
+    def post_events(self, event_name):
+        new_event = event.Event(event_name=event_name)
+        self.session.add(new_event)
+        self.session.commit()
+
     def event_id_choices(self):
         return [(e.id, e.event_name) for e in self.session.query(event.Event).order_by('event_name')]

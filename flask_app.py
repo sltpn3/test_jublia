@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, flash
 from controller.jublia import JubliaController
 from forms.email_to_send import EmailToSendForm
 from forms.email import EmailForm
+from forms.event import EventForm
 
 app = Flask(__name__)
 app.secret_key = b'MzgSuSc4yGm7zTx'
@@ -43,6 +44,21 @@ def emails():
     else:
         return render_template('emails.html', form=form)
 
+
+@app.route('/events', methods=['GET', 'POST'])
+def events():
+    form = EventForm(request.form)
+    if request.method == 'POST' and form.validate():
+        event_name = request.form.get('event_name')
+        try:
+            jublia.post_events(event_name)
+            flash('Data Saved')
+        except Exception, e:
+            print e
+            flash('Error Saving Data')
+        return render_template('events.html', form=form)
+    else:
+        return render_template('events.html', form=form)
 
 jublia = JubliaController()
 
