@@ -1,9 +1,6 @@
-from wtforms import Form, StringField, IntegerField, TextAreaField
-from wtforms.fields.html5 import DateTimeLocalField
+from wtforms import Form, StringField
+from wtforms import validators
 
 
 class EmailForm(Form):
-    event_id = IntegerField('Event ID')
-    email_subject = StringField('Email Subject')
-    email_content = TextAreaField('Email Content')
-    timestamp = DateTimeLocalField('Time To Send ', format='%Y-%m-%dT%H:%M')
+    email = StringField('Email Address', [validators.DataRequired(), validators.Email()])

@@ -15,14 +15,20 @@ class JubliaController():
                                                                      self.config.get('database', 'host'),
                                                                      self.config.get('database', 'name'))
         self.engine = create_engine(engine_config)
+        self.Session = sessionmaker(bind=self.engine)
+        self.session = self.Session()
 
     def post_save_emails(self, event_id, email_subject, email_content, timestamp):
-        Session = sessionmaker(bind=self.engine)
-        session = Session()
-#         print email_content
         email_content = email_content.encode('utf-8')
-#         print email_content
         mail = email_to_send.EmailToSend(event_id=event_id, email_subject=email_subject, email_content=email_content,
                                          timestamp=timestamp)
-        session.add(mail)
-        session.commit()
+        self.session.add(mail)
+        self.session.commit()
+
+    def post_emails(self, email_address):
+        e_mail = email.Email(email=email_address)
+        self.session.add(e_mail)
+        self.session.commit()
+
+    def event_id_choices(self):
+        return [(e.id, e.event_name) for e in self.session.query(event.Event).order_by('event_name')]
