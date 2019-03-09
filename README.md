@@ -21,3 +21,12 @@ used to process job in the queue
 
 #### /save_emails
 used to input scheduled emails
+
+#### /emails
+used to input new recipient email
+
+#### /events
+used to input new events
+
+#### /email_events
+used to map email recipient to event
